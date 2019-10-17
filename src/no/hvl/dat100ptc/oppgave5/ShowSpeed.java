@@ -36,7 +36,7 @@ public class ShowSpeed extends EasyGraphics {
 
 		int N = gpspoints.length-1; // number of data points
 		
-		makeWindow("Speed profile", 2*MARGIN + 2 * N, 2 * MARGIN + BARHEIGHT);
+		makeWindow("Speed profile", 2*MARGIN + 2 * N + 250, 2 * MARGIN + BARHEIGHT);
 		
 		showSpeedProfile(MARGIN + BARHEIGHT,N);
 	}
@@ -47,9 +47,20 @@ public class ShowSpeed extends EasyGraphics {
 		int timescaling = Integer.parseInt(getText("Tidsskalering"));
 				
 		// TODO - START
+		double speeds[] = gpscomputer.speeds();
 		
-		throw new UnsupportedOperationException(TODO.method());
+		for (int i = 0; i < speeds.length; i++) {
+			int fart = (int)GPSUtils.speed(gpspoints[i], gpspoints[i + 1]);
+			
+			setColor(0, 0, 200);
+			
+			fillRectangle(MARGIN + i*3, ybase - (timescaling * fart), 2, (fart * timescaling));
 	
+			
+		}
+		setColor(0, 200, 0);
+		drawLine(MARGIN, ybase - (int)gpscomputer.averageSpeed() * timescaling, 2 * (N + MARGIN) , ybase - (int)gpscomputer.averageSpeed() * timescaling);
+		
 		// TODO - SLUTT
 	}
 }
